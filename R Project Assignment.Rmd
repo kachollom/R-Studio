@@ -1,0 +1,92 @@
+---
+title: "R Project Assignment"
+author: "Odessa Zang"
+date: "November 27, 2023"
+output: html_document
+---
+## Question 1
+```{r}
+Coin.Throw<-sample(c('H', 'T'), 100, replace=TRUE) ##Generates a sequence of 100 random coin tosses, stores the data in the variable 'Coin.Throw'
+Coin.Throw ##Prints out the results in the console
+table(Coin.Throw) ##Creates a table showing the counts from the toss
+barplot(table(Coin.Throw), ylab = "Number of Throws", xlab = "Side of Coin", main = "Coin Throws") ##Creates a bar plot with the data, a title and labels have been added
+```
+
+
+## Question 2
+```{r}
+CoinThrow2<-sample(c(0, 1), 100, replace=TRUE) ##Generates a sequence of 100 random coin flips with replacement.
+CoinThrow2 ##Prints out the sequence in the console.
+cumsum(CoinThrow2) ##Calculates the cumulative sum of the sequence.
+table(CoinThrow2) ##Creates a table with the counts of each flip in the sequence.
+Relfreq<-cumsum(CoinThrow2)/length(CoinThrow2) ##Calculates the relative frequency of the cumulative sum.
+num<-1:100 ##Generates a sequence of numbers from 1 to 100.
+plot(num, Relfreq) ##Creates a line plot of the relative frequency.
+plot(num, Relfreq, type="o") ##Creates a line plot of the relative frequency with marked points.
+```
+
+
+## Question 3
+```{r}
+CoinThrow3<-sample(c(1,0), 100, replace = TRUE) ##1 represents a head and 0 represents a tail.
+CoinThrow3 ##Displays the number of tosses.
+table(CoinThrow3) ##Creates a table of the outcomes.
+Relfreq2<-cumsum(CoinThrow3)/length(CoinThrow3) ##Calculates the relative frequency of the cumulative sum.
+num2<-1:100 ##Generates a sequence of numbers from 1 to 100
+plot(num2, Relfreq2, type="o",ylim = (c(0,1)),xlab = "Number of Tosses", ylab = "Relative Frequency", main = "Relative Frequency of Coin Toss") ##Creates a line plot of the relative frequency with marked points.
+```
+
+
+## Question 4
+```{r}
+library(readxl)
+mydata1<-read_xlsx("TitanicDataA5.xlsx")
+head(mydata1)
+names(mydata1)
+Twoway_a<-table(mydata1$Fate, mydata1$Age)
+Twoway_a
+Twoway_b<-table(mydata1$Fate, mydata1$Sex)
+Twoway_b
+Twoway_c<-table(mydata1$Fate, mydata1$Pclass)
+Twoway_c
+barplot(Twoway_a, beside = TRUE, legend.text = rownames(Twoway_a), xlab = "Age", ylab = "Number of Passengers", main = "Fate and Age")
+barplot(Twoway_b, beside = TRUE, legend.text = rownames(Twoway_b), xlab = "Sex", ylab = "Number of Passengers", main = "Fate and Sex")
+barplot(Twoway_c, beside = TRUE, legend.text = rownames(Twoway_c), xlab = "Passenger Class", ylab = "Number of Passengers", main = "Fate and Passenger Class")
+prob_a<-Twoway_a/sum(Twoway_a)
+signif(prob_a,2)
+prob_b<-Twoway_b/sum(Twoway_b)
+signif(prob_b,2)
+prob_c<-Twoway_c/sum(Twoway_c)
+signif(prob_c,2)
+```
+From the probabilities calculated above, those who were in 1st class, female and aged 17 and below were more likely to survive the Titanic incident.
+
+
+## Question 5
+1. In the height column, some of the height are written in feet and inches, one has no height written and another has the unit written although it is included in the header.
+2. In the foot length column, one of the lengths is missing a decimal point, two lengths have the unit written in although it is included in the header, and there are two lengths missing
+3. In home occupants, '4+dog' should just be 5.
+```{r}
+library(readxl)
+library(psych)
+mydata2<-read_xlsx("ChildDataB52.xlsx")
+names(mydata2)
+Two_a<-table(mydata2$Sex, mydata2$Domhand)
+Two_a
+Two_b<-table(mydata2$Sex, mydata2$SchWorkPressure)
+Two_b
+Two_c<-table(mydata2$Sex, mydata2$Preferred2be)
+Two_c
+barplot(Two_a, col = c("aliceblue","lavender"), beside = TRUE, legend.text = rownames(Two_a), xlab = "Dominant Hand", ylab = "Number of Students", main = "Sex and Dominant Hand")
+barplot(Two_b, col = c("thistle1", "aliceblue"), beside = TRUE, legend.text = rownames(Two_b), xlab = "School Work Pressure", ylab = "Number of Students", main = "Sex and School Work Pressure")
+barplot(Two_c, col = c("slategray1", "violet"), beside = TRUE, legend.text = rownames(Two_c), xlab = "Preferred to Be", ylab = "Number of Students", main = "Sex and Future Preference")
+describe(mydata2[, 2:4])
+```
+From the graphs above:
+It can be seen that more students are right handed than left handed and majority of right handed students male.
+Majority of male students have some school work pressure while more female students experience a lot of school stress.
+Most of the male and female students prefer to be happy.
+
+From the descriptive statistics, the standard errors provided give more precision for the calculated means and the height variable has a higher kurtosis.
+
+
